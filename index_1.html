@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Черновик — сайты для локального бизнеса</title>
+<meta name="description" content="Делаю одностраничные сайты для локального бизнеса: быстро, с вниманием к деталям заведения и ИИ как рабочим инструментом. Портфолио, услуги и цены.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%236C5CE7'/%3E%3Cpolyline points='38,25 65,50 38,75' fill='none' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Черновик — сайты для локального бизнеса">
+<meta property="og:description" content="Одностраничные сайты для локального бизнеса: быстро, с вниманием к деталям и ИИ как рабочим инструментом.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Черновик — сайты для локального бизнеса">
+<meta name="twitter:description" content="Одностраничные сайты для локального бизнеса: быстро, с вниманием к деталям и ИИ как рабочим инструментом.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@500;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E0E10;
+    --bg-2:#17171A;
+    --surface:#1D1D21;
+    --off:#F7F6F2;
+    --dim: rgba(247,246,242,0.62);
+    --violet:#6C5CE7;
+    --violet-bright:#8477F0;
+    --line: rgba(247,246,242,0.12);
+    --radius:6px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--off);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden;}
+  h1,h2,h3,.display{font-family:'Golos Text',sans-serif;font-weight:700;line-height:1.15;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1060px;margin-left:max(24px, calc(50% - 570px));margin-right:max(24px, calc(50% - 490px));padding:0 24px;}
+  .eyebrow{
+    font-family:'Golos Text',sans-serif;font-weight:600;text-transform:uppercase;
+    letter-spacing:0.12em;font-size:0.72rem;color:var(--violet-bright);
+    display:flex;align-items:center;gap:10px;margin-bottom:16px;
+  }
+  .eyebrow::before{content:'';width:22px;height:2px;background:var(--violet-bright);}
+
+  header{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 0;transition:background .3s,padding .3s;}
+  header.scrolled{background:rgba(14,14,16,0.97);padding:14px 0;border-bottom:1px solid var(--line);}
+  .nav-row{display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-family:'Golos Text',sans-serif;font-weight:700;font-size:1.15rem;display:inline-flex;flex-direction:column;line-height:1.15;}
+  .logo-underline{margin-top:2px;}
+  nav.links{display:flex;gap:30px;}
+  nav.links a{font-size:0.9rem;color:var(--dim);transition:color .2s;}
+  nav.links a:hover{color:var(--off);}
+  .header-right{display:flex;align-items:center;gap:18px;}
+  .btn{
+    display:inline-block;font-family:'Golos Text',sans-serif;font-weight:600;font-size:0.85rem;
+    background:var(--violet);color:#fff;padding:13px 24px;border-radius:100px;border:1px solid var(--violet);
+    transition:background .2s, transform .15s;cursor:pointer;
+  }
+  .btn:hover{background:var(--violet-bright);transform:translateY(-1px);}
+  .btn-ghost{background:transparent;color:var(--off);border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--violet-bright);color:var(--violet-bright);background:transparent;}
+  .burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;}
+  .burger span{width:24px;height:2px;background:var(--off);display:block;}
+  nav.links.mobile-open{
+    display:flex;position:fixed;top:0;right:0;bottom:0;width:80%;max-width:340px;
+    background:var(--bg-2);flex-direction:column;padding:100px 32px 32px;z-index:999;
+    box-shadow:-30px 0 60px rgba(0,0,0,0.5);
+  }
+  .mn-brand, .mn-num, .mn-cta{display:none;}
+  nav.links.mobile-open .mn-brand{
+    display:block;font-family:'Golos Text',sans-serif;font-weight:700;font-size:1rem;
+    color:var(--off);margin-bottom:40px;
+  }
+  nav.links.mobile-open .mn-brand span{color:var(--violet-bright);}
+  nav.links.mobile-open a{
+    font-family:'Golos Text',sans-serif;font-size:1.3rem;font-weight:600;color:var(--off);
+    padding:16px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;
+    transition:color .2s, padding-left .2s;
+  }
+  nav.links.mobile-open a:hover{color:var(--violet-bright);padding-left:6px;}
+  nav.links.mobile-open .mn-num{
+    display:inline-block;color:var(--violet-bright);font-size:0.72rem;font-weight:700;
+    margin-right:16px;opacity:0.8;font-family:'Golos Text',sans-serif;
+  }
+  nav.links.mobile-open .mn-cta{
+    display:flex;margin-top:auto;background:var(--violet);color:#fff;
+    justify-content:center;align-items:center;border-radius:100px;padding:16px;
+    font-size:0.92rem;font-weight:600;border-bottom:none;
+  }
+  nav.links.mobile-open .mn-cta:hover{background:var(--violet-bright);color:#fff;padding-left:0;}
+  body.menu-open{overflow:hidden;}
+  .nav-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:998;}
+  .nav-backdrop.show{display:block;}
+  .nav-close{display:none;position:absolute;top:20px;right:20px;background:none;border:none;color:var(--off);font-size:1.6rem;cursor:pointer;padding:10px;}
+  nav.links.mobile-open .nav-close{display:block;}
+
+  .hero{min-height:92vh;display:flex;align-items:center;padding:120px 0 60px;position:relative;overflow:hidden;
+    background:radial-gradient(ellipse 60% 50% at 85% 15%, rgba(108,92,231,0.18), transparent 60%);}
+  .hero-tag{display:inline-block;font-size:0.8rem;color:var(--dim);border:1px solid var(--line);padding:8px 16px;border-radius:100px;margin-bottom:24px;}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.6rem);margin-bottom:22px;max-width:14ch;}
+  .hero h1 em{font-style:normal;color:var(--violet-bright);}
+  .hero p.lead{font-size:1.1rem;color:var(--dim);max-width:52ch;margin-bottom:34px;}
+  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+  .hero-stats{display:flex;gap:40px;margin-top:56px;flex-wrap:wrap;}
+  .stat-num{font-family:'Golos Text',sans-serif;font-size:1.8rem;font-weight:700;color:var(--violet-bright);}
+  .stat-label{font-size:0.8rem;color:var(--dim);}
+
+  section{padding:100px 0;position:relative;}
+  .section-head{max-width:620px;margin-bottom:52px;}
+  .section-head h2{font-size:clamp(1.9rem,3.2vw,2.6rem);}
+  .section-head p{color:var(--dim);margin-top:14px;font-size:1.02rem;}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* Case studies */
+  .cases{display:grid;gap:28px;}
+  .case-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    display:grid;grid-template-columns:1fr 1fr;
+  }
+  .case-card:nth-child(even){direction:rtl;}
+  .case-card:nth-child(even) > *{direction:ltr;}
+  .case-preview{overflow:hidden;background:#000;}
+  .mockup-bar{display:flex;gap:6px;padding:12px 16px;background:rgba(0,0,0,0.35);position:relative;z-index:2;}
+  .mockup-bar span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.25);}
+  .live-frame-wrap{position:relative;overflow:hidden;background:#111;}
+  .live-frame-wrap iframe{
+    width:1440px;height:1000px;border:none;
+    transform-origin:top left;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .live-tag{
+    position:absolute;top:44px;right:10px;z-index:3;
+    display:flex;align-items:center;gap:6px;
+    background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);
+    color:#fff;font-family:'Golos Text',sans-serif;font-size:0.66rem;font-weight:600;
+    text-transform:uppercase;letter-spacing:0.06em;padding:5px 10px;border-radius:100px;
+  }
+  .live-dot-mini{width:6px;height:6px;border-radius:50%;background:#4ADE80;}
+
+  .case-content{padding:38px 34px;display:flex;flex-direction:column;justify-content:center;}
+  .case-content h3{font-size:1.4rem;margin-bottom:6px;}
+  .case-content .case-sub{color:var(--dim);font-size:0.9rem;margin-bottom:20px;}
+  .case-meta{display:grid;gap:12px;margin-bottom:24px;}
+  .case-meta .row{display:flex;gap:10px;font-size:0.88rem;}
+  .case-meta .row b{font-family:'Golos Text',sans-serif;font-weight:600;color:var(--off);min-width:110px;flex-shrink:0;}
+  .case-meta .row span{color:var(--dim);}
+  .case-links{display:flex;gap:14px;}
+  .case-links a{font-size:0.88rem;font-weight:600;color:var(--violet-bright);display:inline-flex;align-items:center;gap:6px;}
+  .case-links a:hover{color:var(--off);}
+
+  /* Services */
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .service-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px;transition:border-color .2s, transform .2s;}
+  .service-card:hover{border-color:var(--violet-bright);transform:translateY(-3px);}
+  .service-card h3{font-size:1.1rem;margin-bottom:10px;}
+  .service-card p{font-size:0.9rem;color:var(--dim);margin-bottom:18px;}
+  .service-price{font-family:'Golos Text',sans-serif;font-weight:700;color:var(--violet-bright);font-size:1.1rem;}
+
+  /* Process */
+  .process-list{display:grid;gap:0;}
+  .process-item{display:grid;grid-template-columns:60px 1fr;gap:24px;padding:22px 0;border-bottom:1px solid var(--line);}
+  .process-item:last-child{border-bottom:none;}
+  .process-num{font-family:'Golos Text',sans-serif;font-size:1.6rem;font-weight:700;color:var(--violet-bright);opacity:0.5;}
+  .process-item h3{font-size:1.05rem;margin-bottom:6px;}
+  .process-item p{color:var(--dim);font-size:0.92rem;max-width:60ch;}
+
+  /* Contact */
+  .contact{background:var(--surface);border-radius:20px;margin:0 24px;padding:60px 44px;text-align:left;}
+  .contact .wrap{padding:0;}
+  .contact h2{font-size:clamp(1.7rem,3.2vw,2.3rem);margin-bottom:14px;}
+  .contact > .wrap > .contact-grid > div:first-child p{color:var(--dim);max-width:44ch;margin-bottom:28px;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:start;}
+  .tg-link{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#2AABEE;color:#fff;font-family:'Golos Text',sans-serif;font-weight:600;
+    padding:14px 24px;border-radius:100px;font-size:0.92rem;transition:transform .15s, background .2s;
+  }
+  .tg-link:hover{background:#229ED9;transform:translateY(-1px);}
+  .contact-form{background:var(--bg);border-radius:16px;padding:28px;border:1px solid var(--line);}
+  .cf-field{margin-bottom:16px;}
+  .cf-field label{display:block;font-size:0.82rem;font-weight:600;margin-bottom:7px;color:var(--dim);}
+  .cf-field input, .cf-field textarea{
+    width:100%;border:1.5px solid var(--line);border-radius:8px;padding:11px 13px;
+    font-family:'Inter',sans-serif;font-size:0.9rem;color:var(--off);background:var(--surface);
+  }
+  .cf-field input:focus, .cf-field textarea:focus{outline:none;border-color:var(--violet-bright);}
+  .cf-field textarea{resize:none;min-height:70px;}
+  .cf-field.error input, .cf-field.error textarea{border-color:#E14B3D;}
+  .cf-error{color:#FF6B5C;font-size:0.76rem;margin-top:5px;display:none;}
+  .cf-field.error .cf-error{display:block;}
+  .cf-submit{width:100%;text-align:center;}
+  .cf-success{display:none;text-align:center;padding:20px 0;}
+  .cf-success.show{display:block;}
+  .cf-fields.hide{display:none;}
+
+  footer{padding:40px 0;color:var(--dim);font-size:0.85rem;}
+  .footer-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+  @media (max-width:860px){
+    nav.links{display:none;}
+    .burger{display:flex;}
+    .case-card, .case-card:nth-child(even){grid-template-columns:1fr;direction:ltr;}
+    .services-grid{grid-template-columns:1fr;}
+    .process-item{grid-template-columns:40px 1fr;}
+    .contact{margin:0 12px;padding:50px 24px;}
+    .contact-grid{grid-template-columns:1fr;}
+    section{padding:70px 0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;scroll-behavior:auto !important;}
+    .reveal{opacity:1;transform:none;}
+  }
+  :focus-visible{outline:2px solid var(--violet-bright);outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap nav-row">
+    <a href="#top" class="logo">Черновик<svg class="logo-underline" width="96" height="9" viewBox="0 0 150 14" fill="none"><path d="M2 6 C 30 2, 60 11, 90 5 C 110 1, 130 9, 148 4" stroke="#8477F0" stroke-width="3" fill="none" stroke-linecap="round"/></svg></a>
+    <nav class="links" id="navLinks">
+      <button class="nav-close" id="navCloseBtn" aria-label="Закрыть меню">✕</button>
+      <div class="mn-brand">Черновик<span>.</span></div>
+      <a href="#work"><span class="mn-num">01</span>Работы</a>
+      <a href="#services"><span class="mn-num">02</span>Услуги</a>
+      <a href="#process"><span class="mn-num">03</span>Как я работаю</a>
+      <a href="#contact"><span class="mn-num">04</span>Контакты</a>
+      <a href="https://t.me/Chernoviik" class="mn-cta" target="_blank" rel="noopener">Написать в Telegram</a>
+    </nav>
+    <div class="header-right">
+      <a href="#contact" class="btn">Обсудить проект</a>
+      <button class="burger" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="nav-backdrop" id="navBackdrop"></div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-tag reveal">Брянск · работаю удалённо</div>
+    <h1 class="reveal">Делаю сайты, которые <em>продают атмосферу</em>, а не просто существуют</h1>
+    <p class="lead reveal">Я собираю одностраничные сайты для локального бизнеса — быстро, с реальным вниманием к тому, чем именно живёт заведение, и с ИИ как рабочим инструментом, а не заменой дизайна.</p>
+    <div class="hero-actions reveal">
+      <a href="#work" class="btn">Смотреть работы</a>
+      <a href="#contact" class="btn-ghost btn">Обсудить свой проект</a>
+    </div>
+    <div class="hero-stats reveal">
+      <div><div class="stat-num">3</div><div class="stat-label">Готовых кейса</div></div>
+      <div><div class="stat-num">3</div><div class="stat-label">Дня на сайт</div></div>
+      <div><div class="stat-num">0</div><div class="stat-label">Холодных звонков</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Работы</div>
+      <h2>Два разных характера — один подход</h2>
+      <p>Ниже — реальные заведения без сайта, для которых я собрал одностраничники с нуля: от палитры и микро-анимаций до текста.</p>
+    </div>
+    <div class="cases">
+      <div class="case-card reveal">
+        <div class="case-preview">
+          <div class="mockup-bar"><span></span><span></span><span></span></div>
+          <div class="live-frame-wrap" data-scale-wrap>
+            <span class="live-tag"><span class="live-dot-mini"></span>Живой сайт</span>
+            <iframe src="br-barbershop.html" title="Grit Barbershop — живое превью" loading="lazy" scrolling="no" data-scale-frame></iframe>
+          </div>
+        </div>
+        <div class="case-content">
+          <h3>Grit Barbershop</h3>
+          <div class="case-sub">Мужской барбершоп, Брянск</div>
+          <div class="case-meta">
+            <div class="row"><b>Аудитория</b><span>Мужчины 20–40, которым важна атмосфера, а не конвейер</span></div>
+            <div class="row"><b>Задача</b><span>Показать характер заведения (кофе, приставка, разговорчивые мастера) — не просто прайс-лист</span></div>
+            <div class="row"><b>Решение</b><span>Тёмная брутальная палитра, мотив «талона в очереди», кнопка записи ведёт сразу на звонок</span></div>
+          </div>
+          <div class="case-links">
+            <a href="br-barbershop.html" target="_blank" rel="noopener">Смотреть сайт →</a>
+          </div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-preview">
+          <div class="mockup-bar"><span></span><span></span><span></span></div>
+          <div class="live-frame-wrap" data-scale-wrap>
+            <span class="live-tag"><span class="live-dot-mini"></span>Живой сайт</span>
+            <iframe src="elina-flowers.html" title="Bloom24 — живое превью" loading="lazy" scrolling="no" data-scale-frame></iframe>
+          </div>
+        </div>
+        <div class="case-content">
+          <h3>Bloom24</h3>
+          <div class="case-sub">Цветочный магазин, круглосуточно, Брянск</div>
+          <div class="case-meta">
+            <div class="row"><b>Аудитория</b><span>Те, кому нужен букет прямо сейчас — в том числе ночью</span></div>
+            <div class="row"><b>Задача</b><span>Сделать круглосуточный режим главным УТП, а не мелкой строкой в графике</span></div>
+            <div class="row"><b>Решение</b><span>Тёплая светлая палитра, живой бейдж «открыто сейчас», карточки-бирки под разные поводы</span></div>
+          </div>
+          <div class="case-links">
+            <a href="elina-flowers.html" target="_blank" rel="noopener">Смотреть сайт →</a>
+          </div>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-preview">
+          <div class="mockup-bar"><span></span><span></span><span></span></div>
+          <div class="live-frame-wrap" data-scale-wrap>
+            <span class="live-tag"><span class="live-dot-mini"></span>Живой сайт</span>
+            <iframe src="kofe-bryu.html" title="Кофе-Брю — живое превью" loading="lazy" scrolling="no" data-scale-frame></iframe>
+          </div>
+        </div>
+        <div class="case-content">
+          <h3>Кофе-Брю</h3>
+          <div class="case-sub">Сеть кофеен, 4 адреса, Брянск</div>
+          <div class="case-meta">
+            <div class="row"><b>Аудитория</b><span>Постоянные гости, которым важна атмосфера и удобный выбор адреса</span></div>
+            <div class="row"><b>Задача</b><span>Свести 10-летнюю историю и 4 точки в один сайт, не потеряв ощущение «уютной кофейни»</span></div>
+            <div class="row"><b>Решение</b><span>Небо на фоне меняется от рассвета до звёзд по мере прокрутки — атмосфера в буквальном смысле встроена в сайт</span></div>
+          </div>
+          <div class="case-links">
+            <a href="kofe-bryu.html" target="_blank" rel="noopener">Смотреть сайт →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Услуги</div>
+      <h2>Что можно заказать</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <h3>Сайт-визитка</h3>
+        <p>Одностраничный сайт: главный экран, о вас, услуги/цены, отзывы, контакты и карта.</p>
+        <div class="service-price">от 8 000 ₽</div>
+      </div>
+      <div class="service-card reveal">
+        <h3>Сайт с формой заявки</h3>
+        <p>То же самое, плюс рабочая форма — заявки приходят вам в Telegram или на почту.</p>
+        <div class="service-price">от 11 000 ₽</div>
+      </div>
+      <div class="service-card reveal">
+        <h3>Доработки и контент</h3>
+        <p>Правки, новые разделы, помощь с текстами и подбором визуала через ИИ.</p>
+        <div class="service-price">по договорённости</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Как я работаю</div>
+      <h2>Без звонков и без предоплаты вслепую</h2>
+    </div>
+    <div class="process-list">
+      <div class="process-item reveal">
+        <div class="process-num">01</div>
+        <div><h3>Показываю, а не обещаю</h3><p>Присылаю черновой макет по вашему бизнесу до какого-либо обсуждения оплаты — вы видите результат сразу.</p></div>
+      </div>
+      <div class="process-item reveal">
+        <div class="process-num">02</div>
+        <div><h3>Обсуждаем детали текстом</h3><p>Без созвонов — всё по переписке, в удобном для вас темпе.</p></div>
+      </div>
+      <div class="process-item reveal">
+        <div class="process-num">03</div>
+        <div><h3>Собираю сайт за 2–3 дня</h3><p>Работаю удалённо, использую ИИ как ускоритель, а не как замену вниманию к деталям.</p></div>
+      </div>
+      <div class="process-item reveal">
+        <div class="process-num">04</div>
+        <div><h3>Правки — в пределах разумного бесплатно</h3><p>Небольшие корректировки после сдачи ничего не стоят, если не выходят за рамки исходной задачи.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact reveal">
+      <div class="contact-grid">
+        <div>
+          <h2>Есть заведение без сайта?</h2>
+          <p>Напишите в Telegram — покажу, как это может выглядеть, ещё до разговора о цене. Или оставьте заявку рядом, и я напишу первым.</p>
+          <a href="https://t.me/Chernoviik" class="tg-link" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Написать в Telegram
+          </a>
+        </div>
+        <div class="contact-form">
+          <form id="contactForm" novalidate>
+            <div class="cf-fields" id="cfFields">
+              <div class="cf-field" id="cfName">
+                <label for="cfNameInput">Имя</label>
+                <input type="text" id="cfNameInput" placeholder="Как к вам обращаться">
+                <div class="cf-error">Введите имя (минимум 2 символа)</div>
+              </div>
+              <div class="cf-field" id="cfContact">
+                <label for="cfContactInput">Telegram или телефон</label>
+                <input type="text" id="cfContactInput" placeholder="@username или +7 900 000-00-00">
+                <div class="cf-error">Укажите, как с вами связаться</div>
+              </div>
+              <div class="cf-field" id="cfMessage">
+                <label for="cfMessageInput">О вашем заведении</label>
+                <textarea id="cfMessageInput" placeholder="Например: кофейня без сайта, хочу посмотреть, как это может выглядеть"></textarea>
+                <div class="cf-error">Коротко опишите заведение (минимум 5 символов)</div>
+              </div>
+            </div>
+            <button type="submit" class="btn cf-submit" id="cfSubmitBtn">Оставить заявку</button>
+          </form>
+          <div class="cf-success" id="cfSuccess">
+            <h3 style="margin-bottom:6px;">Заявка отправлена</h3>
+            <p style="color:var(--dim);font-size:0.9rem;">Отвечу в Telegram или по контакту, который вы указали.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© 2026 Черновик · сайты для локального бизнеса</span>
+    <span>Брянск · удалённо</span>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const burger = document.getElementById('burgerBtn');
+  const navLinks = document.getElementById('navLinks');
+  const navClose = document.getElementById('navCloseBtn');
+  const navBackdrop = document.getElementById('navBackdrop');
+  function closeMenu(){
+    navLinks.classList.remove('mobile-open');
+    burger.setAttribute('aria-expanded', false);
+    document.body.classList.remove('menu-open');
+    navBackdrop.classList.remove('show');
+  }
+  burger.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('mobile-open');
+    burger.setAttribute('aria-expanded', open);
+    document.body.classList.toggle('menu-open', open);
+    navBackdrop.classList.toggle('show', open);
+  });
+  navBackdrop.addEventListener('click', closeMenu);
+  navClose.addEventListener('click', closeMenu);
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const id = link.getAttribute('href').slice(1);
+      if(!id) return;
+      const target = document.getElementById(id);
+      if(target){
+        e.preventDefault();
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        target.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block: 'start'});
+        history.replaceState(null, '', '#' + id);
+      }
+      closeMenu();
+    });
+  });
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+  if(prefersReduced){
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  // Scale live iframe previews to fit their card width, keeping real aspect ratio
+  function scaleLiveFrames(){
+    document.querySelectorAll('[data-scale-wrap]').forEach(wrap => {
+      const frame = wrap.querySelector('[data-scale-frame]');
+      const scale = wrap.clientWidth / frame.offsetWidth;
+      frame.style.transform = 'scale(' + scale + ')';
+      wrap.style.height = (frame.offsetHeight * scale) + 'px';
+    });
+  }
+  window.addEventListener('load', scaleLiveFrames);
+  window.addEventListener('resize', scaleLiveFrames);
+
+  // Contact form: client-side validation + demo success state.
+  // Для реальной работы замените блок внутри submit-обработчика на
+  // fetch() к вашему Formspree endpoint или на URL Telegram-бота.
+  const cf = document.getElementById('contactForm');
+  const cfFields = document.getElementById('cfFields');
+  const cfSuccess = document.getElementById('cfSuccess');
+  const cfSubmitBtn = document.getElementById('cfSubmitBtn');
+  const cfNameInput = document.getElementById('cfNameInput');
+  const cfContactInput = document.getElementById('cfContactInput');
+  const cfMessageInput = document.getElementById('cfMessageInput');
+  const cfName = document.getElementById('cfName');
+  const cfContact = document.getElementById('cfContact');
+  const cfMessage = document.getElementById('cfMessage');
+
+  function validateContactForm(){
+    let ok = true;
+    if(cfNameInput.value.trim().length < 2){ cfName.classList.add('error'); ok = false; }
+    else { cfName.classList.remove('error'); }
+
+    if(cfContactInput.value.trim().length < 4){ cfContact.classList.add('error'); ok = false; }
+    else { cfContact.classList.remove('error'); }
+
+    if(cfMessageInput.value.trim().length < 5){ cfMessage.classList.add('error'); ok = false; }
+    else { cfMessage.classList.remove('error'); }
+    return ok;
+  }
+
+  [cfNameInput, cfContactInput, cfMessageInput].forEach(input => {
+    input.addEventListener('input', validateContactForm);
+  });
+
+  cf.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(!validateContactForm()) return;
+    cfSubmitBtn.disabled = true;
+    cfSubmitBtn.textContent = 'Отправляем…';
+
+    fetch('https://sweet-bonus-9548.v783352.workers.dev', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: cfNameInput.value.trim(),
+        contact: cfContactInput.value.trim(),
+        message: cfMessageInput.value.trim()
+      })
+    })
+      .then(res => {
+        if(!res.ok) throw new Error('failed');
+        cfFields.classList.add('hide');
+        cfSubmitBtn.style.display = 'none';
+        cfSuccess.classList.add('show');
+      })
+      .catch(() => {
+        cfSubmitBtn.disabled = false;
+        cfSubmitBtn.textContent = 'Не отправилось, попробуйте ещё раз';
+      });
+  });
+</script>
+</body>
+</html>
